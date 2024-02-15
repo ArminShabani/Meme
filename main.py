@@ -190,3 +190,5 @@ def main():
                         break
                 case _:
                     print("please enter a valid number")
+
+main()
