@@ -8,51 +8,70 @@ class Meme_database:
         self.flag = flag
         database.update({id: [self.name, self.genre, self.date, self.description]})
         self.decoy = database
-        if self.id!=1:
+        if self.id != 1:
             database = self.decoy
+
         for i in range(1, self.id + 1):
-            if database[i] == None:
-                continue
-            elif database[i][0] == self.name and i != self.id:
-                self.flag = 1
-                print("Duplicate<meme name>")
-                database.pop(self.id)
-                break
+            if database[i] != []:
+                if database[i][0] == self.name and i != self.id:
+                    self.flag = 1
+                    print("\nDuplicate<meme name>\n")
+                    database.pop(self.id)
+                    break
+                else:
+                    continue
             else:
                 continue
         if self.flag == 0:
-            print("Your request has been successfully sent to Azizi")
+            print("\nYour request has been successfully sent to Azizi\n")
         self.decoy = database
-        print(database)
 
     def flag(self):
         if self.flag == 1:
             return 1
         elif self.flag == 0:
             return 0
-    def deleter(self,name):
-        flag=0
-        for i in range(1,self.id+1):
-            if self.decoy[i][0] == name:
-                print("Meme deleted successfully")
-                flag = 1
-                self.decoy.pop(i)
-                break
-        if flag==0:
-            print("This meme is not available")
-        print(self.decoy)
+
+    def deleter(self, name):
+        flag = 0
+        for i in range(1, self.id + 1):
+            if self.decoy[i] != []:
+                if self.decoy[i][0] == name:
+                    print("\nMeme deleted successfully\n")
+                    flag = 1
+                    self.decoy[i] = []
+                    break
+            else:
+                continue
+        if flag == 0:
+            print("\nThis meme is not available\n")
+        return flag
+
+    def requests(self):
+        flag = 1
+        k = 1
+        for i in range(1, self.id + 1):
+            if self.decoy[i] != []:
+                flag = 2
+                print(f"\nYour request {k} is about {self.decoy[i][0]}, which its genre is {self.decoy[i][1]}, you "
+                      f"will recieve the meme on {self.decoy[i][2]}, and your description is: {self.decoy[i][3]}\n")
+                k+=1
+        if flag == 1:
+            print("\nNo request has been registered\n")
 
 
 id = 1
 while True:
+
     print("what do you want to do darling??")
     print("If you have any request for meme, press 1 ")
     print("If you regret, press 2")
     print("If you want to see your requests, press3")
     print("If you want to see your information, press4")
     print("If you want to change your information, press5")
-    print("If you want to be yam yam, press 6")
+    print("And for logging out, press 6")
     a = input()
+
     match a:
         case '1':
             while True:
@@ -69,16 +88,18 @@ while True:
 
         case '2':
             meme_name = input("please enter your meme name:")
-            user.deleter(meme_name)
+            k = user.deleter(meme_name)
 
         case '3':
-            pass
+            user.requests()
+
         case '4':
+
             pass
         case '5':
+
             pass
         case '6':
             exit()
         case _:
-            print("gavi???")
-            print("man daram inja zahmat mikesham")
+            print("please enter a valid number")
