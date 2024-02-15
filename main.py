@@ -145,6 +145,8 @@ def main():
                 os.system('cls' if os.name == 'nt' else 'clear')
                 print("Thanks for useing our application")
                 exit()
+            case _:
+                print("Enter a valid number you Black")
         while True:
 
             print("what do you want to do darling??")
