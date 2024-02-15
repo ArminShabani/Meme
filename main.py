@@ -28,6 +28,16 @@ class MainDataBase:
                 print("Password do not match")
         else:
             print("Username or Email already exists. Please try again.")
+
+   
+    def view_user_info(self, id):
+        for user in self.users:
+            if user.id ==id:
+                return user
+        return f"no user was found with that id of {id}"
+    
+
+
     def update_user(self,username,password,new_entry,field):
         for i in self.users:
             if i.username == username and i.password == password:
@@ -48,6 +58,7 @@ class Users:
     def __str__(self):
         return f"Id: {self.id}, Name: {self.firstname} {self.lastname}, Email: {self.email}, Username: {self.username}"
     
+
 class Meme_database:
     def __init__(self, name, genre, date, description, id, database={}, flag=0):
         self.name = name
@@ -179,7 +190,8 @@ def main():
                 case '3':
                     user.requests()
                 case '4':
-                    pass
+                    user_choice=int(input("enter your id please:")) 
+                    mainDataBase.view_user_info(user_choice)
                 case '5':
                     field_choice = input("which field do you want to change?(username/password)")
                     entry = input("enter your new entry")
