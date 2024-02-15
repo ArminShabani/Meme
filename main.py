@@ -1,3 +1,53 @@
+import os
+import datetime
+class MainDataBase:
+    def __init__(self):
+        self.users = []
+        self.usernames = []
+        self.emails = []
+    def login(self,id,username,password):
+        if username in self.usernames:
+            for i in self.users:
+                if i.username == username and i.password == password:
+                    i.id = id
+                    os.system('cls' if os.name == 'nt' else 'clear')
+                    print(f'welcome {username} with id {id}')
+                    return True
+        else:
+            print("invalid Credentials")
+    
+    def register(self,id,firstname,lastname,email,username,password,re_password):
+        if username not in self.usernames and email not in self.emails:
+            if password == re_password:
+                self.emails.append(email)
+                self.usernames.append(username)
+                self.users.append(Users(id,firstname,lastname,email,username,password))
+                print(f"{username} has been succesfully submited with id of {id}")
+                return True
+            else:
+                print("Password do not match")
+        else:
+            print("Username or Email already exists. Please try again.")
+    def update_user(self,username,password,new_entry,field):
+        for i in self.users:
+            if i.username == username and i.password == password:
+                if field == "username":
+                    i.username = new_entry
+                    self.usernames.remove(username)
+                    self.usernames.append(new_entry)
+                elif field == "password":
+                    i.password = new_entry
+class Users:
+    def __init__(self,id,firstname,lastname,email,username,password):
+        self.id = id
+        self.firstname = firstname
+        self.lastname = lastname
+        self.email = email
+        self.username = username
+        self.password = password
+    def __str__(self):
+        return f"Id: {self.id}, Name: {self.firstname} {self.lastname}, Email: {self.email}, Username: {self.username}"
+    
 class Meme_database:
     def __init__(self, name, genre, date, description, id, database={}, flag=0):
         self.name = name
@@ -54,52 +104,89 @@ class Meme_database:
             if self.decoy[i] != []:
                 flag = 2
                 print(f"\nYour request {k} is about {self.decoy[i][0]}, which its genre is {self.decoy[i][1]}, you "
-                      f"will recieve the meme on {self.decoy[i][2]}, and your description is: {self.decoy[i][3]}\n")
+                      f"meme has been submited on {self.decoy[i][2]}, and your meme description is: {self.decoy[i][3]}\n")
                 k+=1
         if flag == 1:
             print("\nNo request has been registered\n")
+            
+            
 
+def main():
+    user_id = 1
+    meme_id = 1
+    mainDataBase = MainDataBase()
+    login_Success = False
+    register_Success = False
+    logout_flag = False
+    while True:
+        print("welcome")
+        print("1.login")
+        print("2.register")
+        print("3.exit")
+        choice = input("Enter a number (1/2/3): ")
+        match choice:
+            case '1':
+                username = input("Enter your username: ")
+                password = input("Enter your password: ")
+                login_Success = mainDataBase.login(user_id,username,password) 
+            case '2':
+                print(f"your account id is {user_id}")
+                id = user_id
+                name = input("State your F rst name: ")
+                second_name = input("State your Last Name: ")
+                email = input("Enter your email: ")
+                username = input("Enter your username: ")
+                password = input("Enter your password: ")
+                re_password = input("Re-enter your password: ")
+                register_Success = mainDataBase.register(id,name,second_name,email,username,password,re_password)
+                if register_Success:
+                    user_id += 1
+            case '3':
+                os.system('cls' if os.name == 'nt' else 'clear')
+                print("Thanks for useing our application")
+                exit()
+        while True:
 
-id = 1
-while True:
+            print("what do you want to do darling??")
+            print("If you have any request for meme, press 1 ")
+            print("If you regret, press 2")
+            print("If you want to see your requests, press3")
+            print("If you want to see your information, press4")
+            print("If you want to change your information, press5")
+            print("And for logging out, press 6")
+            a = input()
 
-    print("what do you want to do darling??")
-    print("If you have any request for meme, press 1 ")
-    print("If you regret, press 2")
-    print("If you want to see your requests, press3")
-    print("If you want to see your information, press4")
-    print("If you want to change your information, press5")
-    print("And for logging out, press 6")
-    a = input()
+            match a:
+                case '1':
+                    while True:
+                        meme_name = input("please enter the name of your meme:")
+                        meme_genre = input("please enter the genre of your meme:")
+                        meme_date = datetime.datetime.now(datetime.UTC)
+                        meme_description = input("please add some description:")
+                        id = meme_id
+                        user = Meme_database(meme_name, meme_genre, meme_date, meme_description, id)
+                        flag = user.flag
+                        if flag == 0:
+                            meme_id += 1
+                            break
 
-    match a:
-        case '1':
-            while True:
-                meme_name = input("please enter the name of your meme:")
-                meme_genre = input("please enter the genre of your meme:")
-                meme_date = input("please enter the maximum receive date of your meme:")
-                meme_description = input("please add some description:")
-                meme_id = id
-                user = Meme_database(meme_name, meme_genre, meme_date, meme_description, meme_id)
-                flag = user.flag
-                if flag == 0:
-                    id += 1
-                    break
+                case '2':
+                    meme_name = input("please enter your meme name:")
+                    k = user.deleter(meme_name)
 
-        case '2':
-            meme_name = input("please enter your meme name:")
-            k = user.deleter(meme_name)
-
-        case '3':
-            user.requests()
-
-        case '4':
-
-            pass
-        case '5':
-
-            pass
-        case '6':
-            exit()
-        case _:
-            print("please enter a valid number")
+                case '3':
+                    user.requests()
+                case '4':
+                    pass
+                case '5':
+                    field_choice = input("which field do you want to change?(username/password)")
+                    entry = input("enter your new entry")
+                    mainDataBase.update_user(username,password,entry,field_choice)
+                case '6':
+                    os.system('cls' if os.name == 'nt' else 'clear')
+                    print("Your account have been logged out")
+                    logout_flag = True
+                    if logout_flag:
+                        break
+                case _:
+                    print("please enter a valid number")
