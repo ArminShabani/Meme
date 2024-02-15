@@ -158,51 +158,52 @@ def main():
                 exit()
             case _:
                 print("Enter a valid number you Black")
-        while True:
-
-            print("what do you want to do darling??")
-            print("If you have any request for meme, press 1 ")
-            print("If you regret, press 2")
-            print("If you want to see your requests, press3")
-            print("If you want to see your information, press4")
-            print("If you want to change your information, press5")
-            print("And for logging out, press 6")
-            a = input()
-
-            match a:
-                case '1':
-                    while True:
-                        meme_name = input("please enter the name of your meme:")
-                        meme_genre = input("please enter the genre of your meme:")
-                        meme_date = datetime.datetime.now(datetime.UTC)
-                        meme_description = input("please add some description:")
-                        id = meme_id
-                        user = Meme_database(meme_name, meme_genre, meme_date, meme_description, id)
-                        flag = user.flag
-                        if flag == 0:
-                            meme_id += 1
+        if login_Success:
+            while True:
+    
+                print("what do you want to do darling??")
+                print("If you have any request for meme, press 1 ")
+                print("If you regret, press 2")
+                print("If you want to see your requests, press3")
+                print("If you want to see your information, press4")
+                print("If you want to change your information, press5")
+                print("And for logging out, press 6")
+                a = input()
+    
+                match a:
+                    case '1':
+                        while True:
+                            meme_name = input("please enter the name of your meme:")
+                            meme_genre = input("please enter the genre of your meme:")
+                            meme_date = datetime.datetime.now(datetime.UTC)
+                            meme_description = input("please add some description:")
+                            id = meme_id
+                            user = Meme_database(meme_name, meme_genre, meme_date, meme_description, id)
+                            flag = user.flag
+                            if flag == 0:
+                                meme_id += 1
+                                break
+    
+                    case '2':
+                        meme_name = input("please enter your meme name:")
+                        k = user.deleter(meme_name)
+    
+                    case '3':
+                        user.requests()
+                    case '4':
+                        user_choice=int(input("enter your id please:")) 
+                        mainDataBase.view_user_info(user_choice)
+                    case '5':
+                        field_choice = input("which field do you want to change?(username/password)")
+                        entry = input("enter your new entry")
+                        mainDataBase.update_user(username,password,entry,field_choice)
+                    case '6':
+                        os.system('cls' if os.name == 'nt' else 'clear')
+                        print("Your account have been logged out")
+                        logout_flag = True
+                        if logout_flag:
                             break
-
-                case '2':
-                    meme_name = input("please enter your meme name:")
-                    k = user.deleter(meme_name)
-
-                case '3':
-                    user.requests()
-                case '4':
-                    user_choice=int(input("enter your id please:")) 
-                    mainDataBase.view_user_info(user_choice)
-                case '5':
-                    field_choice = input("which field do you want to change?(username/password)")
-                    entry = input("enter your new entry")
-                    mainDataBase.update_user(username,password,entry,field_choice)
-                case '6':
-                    os.system('cls' if os.name == 'nt' else 'clear')
-                    print("Your account have been logged out")
-                    logout_flag = True
-                    if logout_flag:
-                        break
-                case _:
-                    print("please enter a valid number")
-
+                    case _:
+                        print("please enter a valid number")
+    
 main()
