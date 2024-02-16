@@ -11,7 +11,7 @@ class MainDataBase:
                 if i.username == username and i.password == password:
                     i.id = id
                     os.system('cls' if os.name == 'nt' else 'clear')
-                    print(f'welcome {username} with id {id}')
+                    print(f'welcome {username} with id {id-1}')
                     return True
         else:
             print("invalid Credentials")
@@ -19,6 +19,7 @@ class MainDataBase:
     def register(self,id,firstname,lastname,email,username,password,re_password):
         if username not in self.usernames and email not in self.emails:
             if password == re_password:
+                self.id = id
                 self.emails.append(email)
                 self.usernames.append(username)
                 self.users.append(Users(id,firstname,lastname,email,username,password))
@@ -26,15 +27,17 @@ class MainDataBase:
                 return True
             else:
                 print("Password do not match")
+                return False
         else:
             print("Username or Email already exists. Please try again.")
+            return False
 
    
     def view_user_info(self, id):
         for user in self.users:
-            if user.id ==id:
+            if user.id == id:
                 return user
-        return f"no user was found with that id of {id}"
+        print(f"no user was found with that id of {id}")
     
 
 
@@ -47,6 +50,7 @@ class MainDataBase:
                     self.usernames.append(new_entry)
                 elif field == "password":
                     i.password = new_entry
+        return "Check the user info for your changes"
 class Users:
     def __init__(self,id,firstname,lastname,email,username,password):
         self.id = id
@@ -134,30 +138,29 @@ def main():
         print("1.login")
         print("2.register")
         print("3.exit")
-        choice = input("Enter a number (1/2/3): ")
-        match choice:
-            case '1':
-                username = input("Enter your username: ")
-                password = input("Enter your password: ")
-                login_Success = mainDataBase.login(user_id,username,password) 
-            case '2':
-                print(f"your account id is {user_id}")
-                id = user_id
-                name = input("State your F rst name: ")
-                second_name = input("State your Last Name: ")
-                email = input("Enter your email: ")
-                username = input("Enter your username: ")
-                password = input("Enter your password: ")
-                re_password = input("Re-enter your password: ")
-                register_Success = mainDataBase.register(id,name,second_name,email,username,password,re_password)
-                if register_Success:
-                    user_id += 1
-            case '3':
-                os.system('cls' if os.name == 'nt' else 'clear')
-                print("Thanks for useing our application")
-                exit()
-            case _:
-                print("Enter a valid number you Black")
+        choice = int(input("Enter a number (1/2/3): "))
+        if choice == 1:
+            username = input("Enter your username: ")
+            password = input("Enter your password: ")
+            login_Success = mainDataBase.login(user_id,username,password) 
+        elif choice == 2:
+            print(f"your account id is {user_id}")
+            id = user_id
+            name = input("State your First name: ")
+            second_name = input("State your Last Name: ")
+            email = input("Enter your email: ")
+            username = input("Enter your username: ")
+            password = input("Enter your password: ")
+            re_password = input("Re-enter your password: ")
+            register_Success = mainDataBase.register(id,name,second_name,email,username,password,re_password)
+            if register_Success:
+                user_id += 1
+        elif choice == 3:
+            os.system('cls' if os.name == 'nt' else 'clear')
+            print("Thanks for useing our application")
+            exit()
+        else:
+            print("Enter a valid number from (1/2/3)")
         if login_Success:
             while True:
     
@@ -187,12 +190,11 @@ def main():
                     case '2':
                         meme_name = input("please enter your meme name:")
                         k = user.deleter(meme_name)
-    
                     case '3':
                         user.requests()
                     case '4':
                         user_choice=int(input("enter your id please:")) 
-                        mainDataBase.view_user_info(user_choice)
+                        print(mainDataBase.view_user_info(user_choice))
                     case '5':
                         field_choice = input("which field do you want to change?(username/password)")
                         entry = input("enter your new entry")
@@ -204,6 +206,6 @@ def main():
                         if logout_flag:
                             break
                     case _:
-                        print("please enter a valid number")
-    
-main()
+                        print("please enter a valid number from (1/2/3/4/5/6)")
+if __name__ == "__main__": 
+    main()
