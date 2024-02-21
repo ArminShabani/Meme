@@ -1,5 +1,5 @@
-import os
-import datetime
+import os #operating system
+import datetime #date and time
 class MainDataBase:
     def __init__(self):
         self.users = []
@@ -23,6 +23,7 @@ class MainDataBase:
                 self.emails.append(email)
                 self.usernames.append(username)
                 self.users.append(Users(id,firstname,lastname,email,username,password))
+                os.system('cls' if os.name == 'nt' else 'clear')
                 print(f"{username} has been succesfully submited with id of {id}")
                 return True
             else:
@@ -65,7 +66,7 @@ class Users:
         self.password = password
     def __str__(self):
         return f"Id: {self.id -1}, Name: {self.firstname} {self.lastname}, Email: {self.email}, Username: {self.username}"
-    
+
 
 class Meme_database:
     def __init__(self, name, genre, date, description, id, database={}, flag=0):
@@ -84,6 +85,7 @@ class Meme_database:
             if database[i] != []:
                 if database[i][0] == self.name and i != self.id:
                     self.flag = 1
+                    os.system('cls' if os.name == 'nt' else 'clear')
                     print("\nDuplicate<meme name>\n")
                     database.pop(self.id)
                     break
@@ -92,9 +94,10 @@ class Meme_database:
             else:
                 continue
         if self.flag == 0:
+            os.system('cls' if os.name == 'nt' else 'clear')
             print("\nYour request has been successfully sent to Azizi\n")
         self.decoy = database
-
+        
     def flag(self):
         if self.flag == 1:
             return 1
@@ -106,6 +109,7 @@ class Meme_database:
         for i in range(1, self.id + 1):
             if self.decoy[i] != []:
                 if self.decoy[i][0] == name:
+                    os.system('cls' if os.name == 'nt' else 'clear')
                     print("\nMeme deleted successfully\n")
                     flag = 1
                     self.decoy[i] = []
@@ -113,6 +117,7 @@ class Meme_database:
             else:
                 continue
         if flag == 0:
+            os.system('cls' if os.name == 'nt' else 'clear')
             print("\nThis meme is not available\n")
         return flag
 
@@ -126,6 +131,7 @@ class Meme_database:
                       f"meme has been submited on {self.decoy[i][2]}, and your meme description is: {self.decoy[i][3]}\n")
                 k+=1
         if flag == 1:
+            os.system('cls' if os.name == 'nt' else 'clear')
             print("\nNo request has been registered\n")
             
             
@@ -140,19 +146,19 @@ def main():
     change = False
     while True:
         print("welcome")
-        print("1.login")
-        print("2.register")
+        print("1.register")
+        print("2.login")
         print("3.exit")
         try:
             choice = int(input("Enter a number (1/2/3): "))
-            if choice == 1:
+            if choice == 2:
                 username = input("Enter your username: ")
                 password = input("Enter your password: ")
                 login_Success = mainDataBase.login(user_id,username,password) 
                 if login_Success == False:
                     os.system('cls' if os.name == 'nt' else 'clear')
                     print("invalid credentials. Please try again.")
-            elif choice == 2:
+            elif choice == 1:
                 print(f"your account id is {user_id}")
                 id = user_id
                 name = input("State your First name: ")
@@ -165,6 +171,7 @@ def main():
                 if register_Success:
                     user_id += 1
                 else :
+                    os.system('cls' if os.name == 'nt' else 'clear')
                     print("invalid credentials")
                     login_Success = False
             elif choice == 3:
@@ -172,6 +179,7 @@ def main():
                 print("Thanks for useing our application")
                 exit()
         except ValueError:
+            os.system('cls' if os.name == 'nt' else 'clear')
             print("Enter a valid number from (1/2/3)")
         if login_Success:
             while True:
@@ -201,7 +209,7 @@ def main():
     
                     case '2':
                         meme_name = input("please enter your meme name:")
-                        k = user.deleter(meme_name)
+                        user.deleter(meme_name)
                     case '3':
                         user.requests()
                     case '4':
@@ -223,5 +231,12 @@ def main():
                             break
                     case _:
                         print("please enter a valid number from (1/2/3/4/5/6)")
+
+
+
+
+
+
+
 if __name__ == "__main__": 
     main()
