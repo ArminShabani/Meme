@@ -5,7 +5,7 @@ class MainDataBase:
         self.users = []
         self.usernames = []
         self.emails = []
-    def login(self,id,username,password):
+    def login(self,id,username,password):#login
         if username in self.usernames:
             for i in self.users:
                 if i.username == username and i.password == password:
@@ -16,7 +16,7 @@ class MainDataBase:
         else:
             print("invalid Credentials")
     
-    def register(self,id,firstname,lastname,email,username,password,re_password):
+    def register(self,id,firstname,lastname,email,username,password,re_password):#userRegister
         if username not in self.usernames and email not in self.emails:
             if password == re_password:
                 self.id = id
@@ -34,7 +34,7 @@ class MainDataBase:
             return False
 
    
-    def view_user_info(self, id):
+    def view_user_info(self, id):#View User information
         for user in self.users:
             if user.id == id+1:
                 return user
@@ -42,7 +42,7 @@ class MainDataBase:
     
 
 
-    def update_user(self,username,password,new_entry,field):
+    def update_user(self,username,password,new_entry,field):#Update User Information
         for i in self.users:
             if i.username == username and i.password == password:
                 if field == "username":
@@ -98,13 +98,13 @@ class Meme_database:
             print("\nYour request has been successfully sent to Azizi\n")
         self.decoy = database
         
-    def flag(self):
+    def flag(self):#Flag
         if self.flag == 1:
             return 1
         elif self.flag == 0:
             return 0
 
-    def deleter(self, name):
+    def deleter(self, name):#Removing Meme
         flag = 0
         for i in range(1, self.id + 1):
             if self.decoy[i] != []:
@@ -121,7 +121,7 @@ class Meme_database:
             print("\nThis meme is not available\n")
         return flag
 
-    def requests(self):
+    def requests(self):#see User meme Requests
         flag = 1
         k = 1
         for i in range(1, self.id + 1):
@@ -136,7 +136,7 @@ class Meme_database:
             
             
 
-def main():
+def main():#Main Flow
     user_id = 1
     meme_id = 1
     mainDataBase = MainDataBase()
